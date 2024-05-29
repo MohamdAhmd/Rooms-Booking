@@ -13,13 +13,7 @@ namespace Booking.Controllers
         public IActionResult Index()
         {
             var rooms = RoomRepo.GetAll();
-            return Json(rooms);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var room = RoomRepo.GetById(id);
-            return Json(room);
+            return View(rooms);
         }
 
     }

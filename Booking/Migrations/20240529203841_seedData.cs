@@ -13,6 +13,23 @@ namespace Booking.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "images",
+                table: "Rooms",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "[]",
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AddColumn<int>(
+                name: "BranchID",
+                table: "Rooms",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
             migrationBuilder.InsertData(
                 table: "Customers",
                 columns: new[] { "CustomerID", "BookingCount", "Name", "NationalID", "PhoneNumber" },
@@ -27,19 +44,9 @@ namespace Booking.Migrations
                 columns: new[] { "BranchID", "BranchLocation", "BranchName" },
                 values: new object[,]
                 {
-                    { 1, "Cairo", "Holla" },
-                    { 2, "Alex", "Holla" },
-                    { 3, "Dahab", "Holla" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Rooms",
-                columns: new[] { "RoomID", "BookingID", "Description", "NumberOfAdults", "NumberOfChildren", "Price", "RoomNumber", "RoomType", "images" },
-                values: new object[,]
-                {
-                    { 4, null, "This Room Can Have Two Adults and One Child", 2, 1, 5000, 4, "Double", "[]" },
-                    { 5, null, "This Room Can Have Two Adults and Two Children", 2, 2, 3000, 5, "Single", "[]" },
-                    { 6, null, "This Room Can Have Three Adults and Two Children", 3, 2, 6000, 6, "Double", "[]" }
+                    { 1, "Cairo", "HollaCairo" },
+                    { 2, "Alex", "HollaAlex" },
+                    { 3, "Dahab", "HollaDahab" }
                 });
 
             migrationBuilder.InsertData(
@@ -54,18 +61,42 @@ namespace Booking.Migrations
 
             migrationBuilder.InsertData(
                 table: "Rooms",
-                columns: new[] { "RoomID", "BookingID", "Description", "NumberOfAdults", "NumberOfChildren", "Price", "RoomNumber", "RoomType", "images" },
+                columns: new[] { "RoomID", "BookingID", "BranchID", "Description", "NumberOfAdults", "NumberOfChildren", "Price", "RoomNumber", "RoomType", "images" },
                 values: new object[,]
                 {
-                    { 1, 1, "This Room Can Have One Person", 1, 0, 2000, 1, "Single", "[]" },
-                    { 2, 2, "This Room Can Have Two People", 2, 0, 4000, 2, "Double", "[]" },
-                    { 3, 3, "This Room Can Have One Person and One Child", 1, 1, 2800, 3, "Single", "[]" }
+                    { 4, null, 1, "This Room Can Have Two Adults and One Child", 2, 1, 5000, 4, "Double", "[\"room4.jpeg\"]" },
+                    { 5, null, 2, "This Room Can Have Two Adults and Two Children", 2, 2, 3000, 5, "Single", "[\"room5.jpeg\"]" },
+                    { 6, null, 3, "This Room Can Have Three Adults and Two Children", 3, 2, 6000, 6, "Double", "[\"room6.jpeg\"]" },
+                    { 1, 1, 1, "This Room Can Have One Person", 1, 0, 2000, 1, "Single", "[\"room1.jpeg\"]" },
+                    { 2, 2, 2, "This Room Can Have Two People", 2, 0, 4000, 2, "Double", "[\"room2.jpeg\"]" },
+                    { 3, 3, 3, "This Room Can Have One Person and One Child", 1, 1, 2800, 3, "Single", "[\"room3.jpeg\"]" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rooms_BranchID",
+                table: "Rooms",
+                column: "BranchID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Rooms_HotelBranches_BranchID",
+                table: "Rooms",
+                column: "BranchID",
+                principalTable: "HotelBranches",
+                principalColumn: "BranchID",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Rooms_HotelBranches_BranchID",
+                table: "Rooms");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Rooms_BranchID",
+                table: "Rooms");
+
             migrationBuilder.DeleteData(
                 table: "Rooms",
                 keyColumn: "RoomID",
@@ -135,6 +166,18 @@ namespace Booking.Migrations
                 table: "HotelBranches",
                 keyColumn: "BranchID",
                 keyValue: 3);
+
+            migrationBuilder.DropColumn(
+                name: "BranchID",
+                table: "Rooms");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "images",
+                table: "Rooms",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)");
         }
     }
 }

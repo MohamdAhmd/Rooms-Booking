@@ -15,6 +15,12 @@ namespace Booking.Repos
         {
             db.Bookings.Add(data);
             db.SaveChanges();
+            foreach (var roomNumber in data.RoomNumbers)
+            {
+                var room = db.Rooms.FirstOrDefault(r => r.RoomID == roomNumber);
+                room.BookingID = data.BookingID;
+            }
+            db.SaveChanges();
         }
     }
 }

@@ -46,10 +46,16 @@ namespace Booking.Models
                 .WithOne(b => b.HotelBranch)
                 .HasForeignKey(b => b.BranchID);
 
+            modelBuilder.Entity<HotelBranch>()
+                .HasMany(h => h.Rooms)
+                .WithOne(r => r.HotelBranch)
+                .HasForeignKey(r => r.BranchID);
+
             modelBuilder.Entity<BookingModel>()
                 .HasMany(b => b.Rooms)
                 .WithOne(r => r.Booking)
-                .HasForeignKey(r => r.BookingID);
+                .HasForeignKey(r => r.BookingID)
+                .IsRequired(false); // Because BookingID can be null
 
             modelBuilder.SeedData();
         }

@@ -1,10 +1,11 @@
 ﻿using Booking.Models;
+using Booking.View_Model;
 
 namespace Booking.IRepos
 {
     public interface IRoomRepo
     {
-        List<Room> GetAll();
-        Room GetById(int id);
+        List<RoomsVM> GetAll();
+        RoomsVM GetById(int id);
     }
 }

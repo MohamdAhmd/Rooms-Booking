@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Booking.Models
 {
@@ -13,9 +14,15 @@ namespace Booking.Models
         public int NumberOfChildren { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }
-        public List<string>? images { get; set; } = new List<string>();
-
+        public List<string> images { get; set; } = new List<string>();
 
         public BookingModel Booking { get; set; }
+
+        // Foreign key for HotelBranch
+        [ForeignKey("HotelBranch")]
+        public int BranchID { get; set; }
+
+        // Navigation property for HotelBranch
+        public HotelBranch HotelBranch { get; set; }
     }
 }

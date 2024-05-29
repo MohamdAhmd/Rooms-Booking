@@ -1,5 +1,6 @@
 ﻿using Booking.IRepos;
 using Booking.Models;
+using Booking.View_Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Booking.Repos
@@ -12,14 +13,44 @@ namespace Booking.Repos
             db = _db;
         }
 
-        public List<Room> GetAll()
+        public List<RoomsVM> GetAll()
         {
-            return db.Rooms.Where(r => r.BookingID == null).ToList();
+            var rooms = db.Rooms.Include(r => r.HotelBranch).Include(r => r.Booking)
+                             .Select(r => new RoomsVM
+                             {
+                                 RoomNumber = r.RoomID,
+                                 RoomType = r.RoomType,
+                                 Price = r.Price,
+                                 BookingId = r.BookingID,
+                                 Description = r.Description,
+                                 images = r.images,
+                                 BranchName = r.HotelBranch.BranchName,
+                                 CheckOutDate = r.Booking.CheckOutDate
+                             })
+                             .ToList();
+            return rooms;
         }
 
-        public Room GetById(int id)
+        public RoomsVM GetById(int id)
         {
-            return db.Rooms.FirstOrDefault(room => room.RoomID == id);
+            var room = db.Rooms
+                         .Where(r => r.RoomID == id)
+                         .Select(r => new RoomsVM
+                         {
+                             RoomNumber = r.RoomID,
+                             RoomType = r.RoomType,
+                             Price = r.Price,
+                             BookingId = r.BookingID,
+                             Description = r.Description,
+                             images = r.images,
+                             BranchName = r.HotelBranch.BranchName,
+                             BranchLocation = r.HotelBranch.BranchLocation,
+                             NumberOfAdults = r.NumberOfAdults,
+                             NumberOfChildren = r.NumberOfChildren
+                         })
+                         .SingleOrDefault();
+
+            return room;
         }
     }
 }

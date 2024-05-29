@@ -1,0 +1,91 @@
+﻿@using Booking.View_Model
+@model RoomsVM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Details</title>
+    @* <link rel="stylesheet" href="styles.css"> *@
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        .image-section {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+            .image-section img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 5px;
+            }
+
+        .details-section {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+            .details-section h1 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .details-section p {
+                font-size: 18px;
+                margin: 5px 0;
+            }
+
+        #book-now-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+            #book-now-btn:hover {
+                background-color: #218838;
+            }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <img src="~/Images/@Model.images[0]" alt="Room Image">
+        </div>
+        <div class="details-section">
+            <h1>Room Details</h1>
+            <p><strong>Room Number:</strong> @Model.RoomNumber</p>
+            <p><strong>Room Description:</strong> @Model.Description</p>
+            <p><strong>Room Type:</strong> @Model.RoomType</p>
+            <p><strong>Number of Adults:</strong> @Model.NumberOfAdults</p>
+            <p><strong>Number of Children:</strong> @Model.NumberOfChildren</p>
+            <p><strong>Branch Name:</strong> @Model.BranchName</p>
+            <p><strong>Branch Location:</strong> @Model.BranchLocation</p>
+            <p><strong>Price $</strong>@Model.Price</p>
+            @if(Model.BookingId == null){ 
+                <button id="book-now-btn">Book Now</button>
+            }
+        </div>
+    </div>
+</body>
+</html>

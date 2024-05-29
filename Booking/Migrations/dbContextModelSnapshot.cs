@@ -167,19 +167,19 @@ namespace Booking.Migrations
                         {
                             BranchID = 1,
                             BranchLocation = "Cairo",
-                            BranchName = "Holla"
+                            BranchName = "HollaCairo"
                         },
                         new
                         {
                             BranchID = 2,
                             BranchLocation = "Alex",
-                            BranchName = "Holla"
+                            BranchName = "HollaAlex"
                         },
                         new
                         {
                             BranchID = 3,
                             BranchLocation = "Dahab",
-                            BranchName = "Holla"
+                            BranchName = "HollaDahab"
                         });
                 });
 
@@ -192,6 +192,9 @@ namespace Booking.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoomID"));
 
                     b.Property<int?>("BookingID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BranchID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -215,11 +218,14 @@ namespace Booking.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("images")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RoomID");
 
                     b.HasIndex("BookingID");
+
+                    b.HasIndex("BranchID");
 
                     b.ToTable("Rooms");
 
@@ -228,70 +234,76 @@ namespace Booking.Migrations
                         {
                             RoomID = 1,
                             BookingID = 1,
+                            BranchID = 1,
                             Description = "This Room Can Have One Person",
                             NumberOfAdults = 1,
                             NumberOfChildren = 0,
                             Price = 2000,
                             RoomNumber = 1,
                             RoomType = "Single",
-                            images = "[]"
+                            images = "[\"room1.jpeg\"]"
                         },
                         new
                         {
                             RoomID = 2,
                             BookingID = 2,
+                            BranchID = 2,
                             Description = "This Room Can Have Two People",
                             NumberOfAdults = 2,
                             NumberOfChildren = 0,
                             Price = 4000,
                             RoomNumber = 2,
                             RoomType = "Double",
-                            images = "[]"
+                            images = "[\"room2.jpeg\"]"
                         },
                         new
                         {
                             RoomID = 3,
                             BookingID = 3,
+                            BranchID = 3,
                             Description = "This Room Can Have One Person and One Child",
                             NumberOfAdults = 1,
                             NumberOfChildren = 1,
                             Price = 2800,
                             RoomNumber = 3,
                             RoomType = "Single",
-                            images = "[]"
+                            images = "[\"room3.jpeg\"]"
                         },
                         new
                         {
                             RoomID = 4,
+                            BranchID = 1,
                             Description = "This Room Can Have Two Adults and One Child",
                             NumberOfAdults = 2,
                             NumberOfChildren = 1,
                             Price = 5000,
                             RoomNumber = 4,
                             RoomType = "Double",
-                            images = "[]"
+                            images = "[\"room4.jpeg\"]"
                         },
                         new
                         {
                             RoomID = 5,
+                            BranchID = 2,
                             Description = "This Room Can Have Two Adults and Two Children",
                             NumberOfAdults = 2,
                             NumberOfChildren = 2,
                             Price = 3000,
                             RoomNumber = 5,
                             RoomType = "Single",
-                            images = "[]"
+                            images = "[\"room5.jpeg\"]"
                         },
                         new
                         {
                             RoomID = 6,
+                            BranchID = 3,
                             Description = "This Room Can Have Three Adults and Two Children",
                             NumberOfAdults = 3,
                             NumberOfChildren = 2,
                             Price = 6000,
                             RoomNumber = 6,
                             RoomType = "Double",
-                            images = "[]"
+                            images = "[\"room6.jpeg\"]"
                         });
                 });
 
@@ -320,7 +332,15 @@ namespace Booking.Migrations
                         .WithMany("Rooms")
                         .HasForeignKey("BookingID");
 
+                    b.HasOne("Booking.Models.HotelBranch", "HotelBranch")
+                        .WithMany("Rooms")
+                        .HasForeignKey("BranchID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Booking");
+
+                    b.Navigation("HotelBranch");
                 });
 
             modelBuilder.Entity("Booking.Models.BookingModel", b =>
@@ -336,6 +356,8 @@ namespace Booking.Migrations
             modelBuilder.Entity("Booking.Models.HotelBranch", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }

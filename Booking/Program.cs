@@ -16,6 +16,7 @@ namespace Booking
             builder.Services.AddDbContext<dbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<IRoomRepo, RoomRepo>();
+            builder.Services.AddScoped<IBookingRepo, BookingRepo>();
 
 
             var app = builder.Build();
@@ -33,7 +34,7 @@ namespace Booking
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Hotel}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -9,5 +9,7 @@ namespace Booking.Models
         public string BranchLocation { get; set; }
 
         public ICollection<BookingModel> Bookings { get; set; } = new List<BookingModel>();
+        // One-to-many relationship with Room
+        public ICollection<Room> Rooms { get; set; } = new List<Room>();
     }
 }
