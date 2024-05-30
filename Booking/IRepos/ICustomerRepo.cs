@@ -3,6 +3,5 @@ namespace Booking.IRepos
 {
     public interface ICustomerRepo
     {
-        void add(Customer repo);
     }
 }

@@ -15,8 +15,12 @@ namespace Booking.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>()
-                            .HasKey(c => c.CustomerID);
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasKey(c => c.CustomerID);
+                entity.Property(c => c.isBooked)
+                        .HasDefaultValue(false);
+            });
 
             modelBuilder.Entity<HotelBranch>(entity =>
             {

@@ -10,8 +10,8 @@ namespace Booking.SeedData
         public static void SeedData(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasData(
-                new Customer { CustomerID = 1, Name = "Mohamed", NationalID = "12345678912345", PhoneNumber = "01012345678", BookingCount = 0 },
-                new Customer { CustomerID = 2, Name = "Ahmed", NationalID = "12345678912367", PhoneNumber = "01012345690", BookingCount = 1 }
+                new Customer { CustomerID = 1, Name = "Mohamed", NationalID = "12345678912345", PhoneNumber = "01012345678", isBooked = true },
+                new Customer { CustomerID = 2, Name = "Ahmed", NationalID = "12345678912367", PhoneNumber = "01012345690", isBooked = true }
             );
 
             modelBuilder.Entity<HotelBranch>().HasData(

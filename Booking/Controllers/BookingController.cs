@@ -1,5 +1,6 @@
 ﻿using Booking.IRepos;
 using Booking.Models;
+using Booking.View_Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Booking.Controllers
@@ -11,10 +12,10 @@ namespace Booking.Controllers
         {
             bookingRepo = _bookingRepo;
         }
-        public IActionResult Index([FromForm] BookingModel data)
+        public IActionResult Create([FromForm] BookingVM data)
         {
             bookingRepo.create(data);
-            return View();
+            return Json("OK");
         }
     }
 }

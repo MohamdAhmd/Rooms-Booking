@@ -1,9 +1,9 @@
-﻿using Booking.Models;
+﻿using Booking.View_Model;
 
 namespace Booking.IRepos
 {
     public interface IBookingRepo
     {
-        void create(BookingModel data);
+        void create(BookingVM data);
     }
 }

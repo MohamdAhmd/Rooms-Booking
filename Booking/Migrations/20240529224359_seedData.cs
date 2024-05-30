@@ -13,6 +13,10 @@ namespace Booking.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "BookingCount",
+                table: "Customers");
+
             migrationBuilder.AlterColumn<string>(
                 name: "images",
                 table: "Rooms",
@@ -30,13 +34,20 @@ namespace Booking.Migrations
                 nullable: false,
                 defaultValue: 0);
 
+            migrationBuilder.AddColumn<bool>(
+                name: "isBooked",
+                table: "Customers",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "CustomerID", "BookingCount", "Name", "NationalID", "PhoneNumber" },
+                columns: new[] { "CustomerID", "Name", "NationalID", "PhoneNumber", "isBooked" },
                 values: new object[,]
                 {
-                    { 1, 0, "Mohamed", "12345678912345", "01012345678" },
-                    { 2, 1, "Ahmed", "12345678912367", "01012345690" }
+                    { 1, "Mohamed", "12345678912345", "01012345678", true },
+                    { 2, "Ahmed", "12345678912367", "01012345690", true }
                 });
 
             migrationBuilder.InsertData(
@@ -171,6 +182,10 @@ namespace Booking.Migrations
                 name: "BranchID",
                 table: "Rooms");
 
+            migrationBuilder.DropColumn(
+                name: "isBooked",
+                table: "Customers");
+
             migrationBuilder.AlterColumn<string>(
                 name: "images",
                 table: "Rooms",
@@ -178,6 +193,13 @@ namespace Booking.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
+
+            migrationBuilder.AddColumn<int>(
+                name: "BookingCount",
+                table: "Customers",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
         }
     }
 }

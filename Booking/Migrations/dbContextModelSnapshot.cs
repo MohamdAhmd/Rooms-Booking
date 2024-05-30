@@ -104,9 +104,6 @@ namespace Booking.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerID"));
 
-                    b.Property<int>("BookingCount")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,6 +116,11 @@ namespace Booking.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isBooked")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.HasKey("CustomerID");
 
                     b.ToTable("Customers");
@@ -127,18 +129,18 @@ namespace Booking.Migrations
                         new
                         {
                             CustomerID = 1,
-                            BookingCount = 0,
                             Name = "Mohamed",
                             NationalID = "12345678912345",
-                            PhoneNumber = "01012345678"
+                            PhoneNumber = "01012345678",
+                            isBooked = true
                         },
                         new
                         {
                             CustomerID = 2,
-                            BookingCount = 1,
                             Name = "Ahmed",
                             NationalID = "12345678912367",
-                            PhoneNumber = "01012345690"
+                            PhoneNumber = "01012345690",
+                            isBooked = true
                         });
                 });
 
