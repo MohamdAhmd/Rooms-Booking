@@ -19,13 +19,13 @@
     }
 
 
-    if (/^[0-9]{6,20}$/.test(nationalID)){
+    if (/^[0-9]{15}$/.test(nationalID)){
         errorDiv.style.display = 'block';
         errorMsg.textContent = "Please Enter Valid National ID";
         return false;
     }
 
-    if (/^[0-9{11}$]/.test(phoneNumber)) {
+    if (/^[0-9]{11}$/.test(phoneNumber)) {
         errorDiv.style.display = 'block';
         errorMsg.textContent = "Please Enter Valid Phone Number";
         return false;
@@ -55,35 +55,71 @@
         return false;
     }
 
-    let selectedRoomNumbers = Array.from(roomNumbers).filter(room => room.checked).length;
-    if (selectedRoomNumbers === 0) {
-        errorDiv.style.display = 'block';
-        errorMsg.textContent = "Please Select Room Number";
-        return false;
-    }
-
     // If all validations pass, return true to submit the form
     return true;
 }
 
-document.getElementById('bookingForm').addEventListener('submit', function (event) {
-    // Prevent the form from submitting the traditional way if validation fails
+
+document.getElementById('bookingForm').addEventListener('submit', async function (event) {
     if (!validateForm()) {
         event.preventDefault();
-        return; // Exit the function if validation fails
+        return;
     }
+    const form = event.target;
+    const formData = new FormData(form);
 
-    // If validation passes, submit the form data
-    let formData = new FormData(this);
-    fetch('/Booking/Create', {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message); // Show success message
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    // Get selected room numbers
+    const roomNumbers = [];
+    form.querySelectorAll('input[name="RoomNumber"]:checked').forEach(checkbox => {
+        roomNumbers.push(checkbox.value);
+    });
+    console.log(roomNumbers)
+    // Prepare data to be sent
+    const data = {
+        CustomerName: formData.get('CustomerName'),
+        NationalID: formData.get('NationalID'),
+        PhoneNumber: formData.get('PhoneNumber'),
+        CheckInDate: formData.get('CheckInDate'),
+        CheckOutDate: formData.get('CheckOutDate'),
+        TotalRooms: formData.get('TotalRooms'),
+        RoomNumber: roomNumbers,
+        BranchName: formData.get('BranchName')
+    };
+
+    try {
+        const response = await fetch('/booking/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            Swal.fire({
+                title: 'Success',
+                text: 'Booking created successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            const errorData = await response.json();
+            document.getElementById('errordiv').innerText = errorData.message || 'An error occurred';
+            Swal.fire({
+                title: 'Error',
+                text: errorData.message || 'An error occurred',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    } catch (error) {
+        document.getElementById('errordiv').innerText = 'An error occurred';
+        Swal.fire({
+            title: 'Error',
+            text: 'An error occurred',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
 });

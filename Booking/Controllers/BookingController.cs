@@ -19,7 +19,7 @@ namespace Booking.Controllers
             return View("create",res);
         }
 
-        public IActionResult Create([FromForm] BookingVM data)
+        public IActionResult Create([FromBody]BookingVM data)
         {
             bookingRepo.create(data);
             return Json(new { message = "Booking successfully created!" });
