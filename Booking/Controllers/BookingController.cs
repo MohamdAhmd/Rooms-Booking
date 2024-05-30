@@ -12,10 +12,17 @@ namespace Booking.Controllers
         {
             bookingRepo = _bookingRepo;
         }
+
+        public IActionResult Index()
+        {
+            var res = bookingRepo.index();
+            return View("create",res);
+        }
+
         public IActionResult Create([FromForm] BookingVM data)
         {
             bookingRepo.create(data);
-            return Json("OK");
+            return Json(new { message = "Booking successfully created!" });
         }
     }
 }

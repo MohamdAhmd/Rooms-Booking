@@ -13,6 +13,18 @@ namespace Booking.Repos
             db = _db;
         }
 
+        public CreateVM index()
+        {
+            var rooms = db.Rooms.Select(r => r.RoomNumber).ToList();
+            var branches = db.HotelBranches.Select(b => b.BranchName).ToList();
+
+            var res = new CreateVM {
+                RoomNumbers = rooms,
+                BranchesNames = branches
+            };
+            return res;
+        }
+
         public void create(BookingVM data)
         {
             //1. if this user exist in db and he booked before

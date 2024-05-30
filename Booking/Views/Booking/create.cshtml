@@ -1,0 +1,70 @@
+﻿@using Booking.View_Model
+@model CreateVM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Form</title>
+    <link rel="stylesheet" href="~/css/create.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Booking Form</h1>
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" name="CustomerName" required>
+            </div>
+            <div class="form-group">
+                <label for="nationalID">National ID</label>
+                <input type="text" id="nationalID" name="NationalID" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" id="phoneNumber" name="PhoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="checkInDate">Check In Date</label>
+                <input type="datetime-local" id="checkInDate" name="CheckInDate" required>
+            </div>
+            <div class="form-group">
+                <label for="checkOutDate">Check Out Date</label>
+                <input type="datetime-local" id="checkOutDate" name="CheckOutDate" required>
+            </div>
+            <div class="form-group">
+                <label for="totalRooms">Total Rooms</label>
+                <input type="number" id="totalRooms" name="TotalRooms" required>
+            </div>
+            <div class="form-group">
+                <label>Room Numbers</label>
+                <div class="dropdown">
+                    <button type="button" class="dropbtn">Select Room Numbers</button>
+                    <div class="dropdown-content">
+                        @foreach (var room in Model.RoomNumbers)
+                        {
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="RoomNumber" value="@room" id="room-@room">
+                                <label for="room-@room">@room</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="branchName">Branch Name</label>
+                <select id="branchName" name="BranchName" required>
+                    <option value="" disabled>select</option>
+                    @foreach (var item in Model.BranchesNames)
+                    {
+                    <option value="@item">@item</option>
+                    }
+                </select>
+            </div>
+            <button type="submit">Submit</button>
+            <div id="errordiv" class="error-message "></div>
+        </form>
+    </div>
+    <script src="~/js/create.js"></script>
+</body>
+</html>

@@ -83,7 +83,9 @@
             <p><strong>Branch Location:</strong> @Model.BranchLocation</p>
             <p><strong>Price $</strong>@Model.Price</p>
             @if(Model.BookingId == null){ 
-                <button id="book-now-btn">Book Now</button>
+                <a href="@Url.Action("Index", "Booking")">
+                    <button id="book-now-btn">Book Now</button>
+                </a>
             }
         </div>
     </div>

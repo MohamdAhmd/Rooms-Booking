@@ -15,26 +15,6 @@
 
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Booking</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav item">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <!-- Slider Section -->
     <div class="container">
         <div class="slider-wrapper">
@@ -73,13 +53,16 @@
                 <p>Type: @card.RoomType</p>
                 @if(@card.BookingId == null){
                     <p class="status">Available</p>
+                <a href="@Url.Action("Index", "Booking")">
                     <button class="book-button">Book Now</button>                    
-                    
+                </a>
                 }else{
                     <p class="status reserved">Reserved</p>
                     <p class="available-date">Available on:</p>
                     <p>@card.CheckOutDate</p>
-                    <button class="book-button" disabled>Book Now</button>                    
+                <a href="@Url.Action("Index", "Booking")">
+                    <button class="book-button" disabled>Book Now</button>  
+                </a>
                 }
             </div>
         }
